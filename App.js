@@ -26,10 +26,13 @@ class App extends React.Component {
     });
     }
 
-    this.refertenceShoppinglistUser = null;
+    this.referenceShoppinglistUser = null;
   }
-
+  //  method allows us to execute the React code when the component is already placed in the DOM (Document Object Model). 
+  // This method is called during the Mounting phase of the React Life-cycle i.e after the component is rendered.
   componentDidMount() {
+
+    // reference to read all the documents in the "shoppinglist" collection
     this.referenceShoppingLists = firebase
     .firestore()
     .collection('shoppinglists');
@@ -56,17 +59,18 @@ class App extends React.Component {
         .collection('shoppinglists')
         .where("uid", "==", this.state.uid); 
 
-        // listen for collection changes for current user
+        // listens for collection changes for current user
         this.unsubscribeListUser = this.referenceShoppinglistUser.onSnapshot(this.onCollectionUpdate);
       }
     );
   }
 
+  // allows us to execute the React code when the component gets destroyed or unmounted from the DOM
   componentWillUnmount() {
     // stop listening to authentication
     this.authUnsubscribe();
     // stop listening for changes
-    this.unsubscribeListUser()
+    this.unsubscribeListUser();
   }
 
   // Whenever something changes in your “shoppinglists” collection (and, thus, when onSnapshot() is fired), you need to call a function, like this onCollectionUpdate() function. 
